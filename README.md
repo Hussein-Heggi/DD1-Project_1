@@ -1,2 +1,2 @@
-# DD1-Project_1
-Quine-McCluskey Logic Minimization Program
+# Quine-McCluskey Logic Minimization Program Report 
+
