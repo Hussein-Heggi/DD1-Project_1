@@ -15,17 +15,17 @@ using namespace std;
 class QM
 {
 private:
-    long int num;
-    string Pos_Var[11] = {"'","a","b","c","d","e","f","g","h","i","j"};
+    long int num = 0;
+    char Pos_Var[12] = {"'abcdefghij"};
     string BoFun;
-    vector<string> Validated;
+    vector<string> Variables;
+    vector<string> Validator;
+    
 public:
     QM();
     void Start();
-    void Num_Var(int);
-    bool Validate_Bool(string);
-    int Compare(string, string);
-    bool strstr(string, string);
+    void Bool_Fun(string);
+    bool Validate_Bool();
 };
 
 #endif 
