@@ -1,9 +1,11 @@
 
 #include <iostream>
+#include "QM.hpp"
 using namespace std;
 
 int main()
 {
+    QM t;
     cout << "============================================" << endl;
     cout << " Quine-McCluskey Logic Minimization Program" << endl;
     cout << "============================================" << endl;
@@ -20,6 +22,7 @@ int main()
         {
             case 1:
                 cout << "--------------------------------------------" << endl;
+                t.Start();
                 break;
                 
             case 2:
@@ -36,5 +39,4 @@ int main()
                 break;
         }
     }while ((q != 1) && (c != 2));
-    
 }
