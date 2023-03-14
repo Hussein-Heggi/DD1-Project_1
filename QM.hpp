@@ -15,17 +15,21 @@ using namespace std;
 class QM
 {
 private:
+    int trial;
     long int num = 0;
     char Pos_Var[12] = {"'abcdefghij"};
+    string Add[10] = {"a","b","c","d","e","f","g","h","i","j"};
+    string Bar[10] = {"a'","b'","c'","d'","e'","f'","g'","h'","i'","j'"};
     string BoFun;
     vector<string> Variables;
     vector<string> Validator;
+    vector<string> minterms;
+    
     
 public:
-    QM();
-    void Start();
+    QM(string);
     void Bool_Fun(string);
-    bool Validate_Bool();
+    void Validate_Fun();
 };
 
 #endif 
