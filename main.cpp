@@ -3,10 +3,12 @@
 #include "QM.hpp"
 using namespace std;
 
-string Examples()
+void Examples(string &x, int &y)
 {
     int r = 0;
     string Ex[10];
+    int E[10];
+    E[0] = 4;
     Ex[0] = "abc + a'b'c";
     Ex[1] = "";
     Ex[2] = "";
@@ -43,7 +45,8 @@ string Examples()
     }while (r > 10);
     
     
-    return Ex[r-1];
+    x = Ex[r-1];
+    y = E[r-1];
 }
 void Operation()
 {
@@ -60,8 +63,10 @@ void Operation()
                 case 1:
                 {
                     cout << "--------------------------------------------" << endl;
-                    string e = Examples();
-                    QM test(e);
+                    string e;
+                    int ex;
+                    Examples(e,ex);
+                    QM test(e,ex);
                     break;
                 }
                     
