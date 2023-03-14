@@ -44,14 +44,20 @@ void QM::Validate_Fun()
             else
             {
                 repeat = false;
-                for (int z = 0; z < minterms.size(); z++)
+                if (minterms.size() == 0)
+                    minterms.push_back(Variables[i]);
+                else
                 {
-                    if (Variables[i] == minterms[z])
-                        repeat = true;
-                    
-                    if (repeat == false)
-                        minterms.push_back(Variables[i]);
+                    for (int z = 0; z < minterms.size(); z++)
+                    {
+                        if (Variables[i] == minterms[z])
+                            repeat = true;
+                        
+                        if (repeat == false)
+                            minterms.push_back(Variables[i]);
+                    }
                 }
+                
             }
                 
         }
