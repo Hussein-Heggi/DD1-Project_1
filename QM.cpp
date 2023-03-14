@@ -53,9 +53,10 @@ void QM::Validate_Fun()
                         if (Variables[i] == minterms[z])
                             repeat = true;
                         
-                        if (repeat == false)
-                            minterms.push_back(Variables[i]);
                     }
+                    
+                    if (repeat == false)
+                        minterms.push_back(Variables[i]);
                 }
                 
             }
