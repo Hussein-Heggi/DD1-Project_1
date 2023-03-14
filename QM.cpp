@@ -4,15 +4,15 @@ QM::QM(string x)
 {
     cout << "=============================================" << endl;
     BoFun = x;
-    Bool_Fun(BoFun);
+    Get_Fun(BoFun);
     Validate_Fun();
-//    for (int i = 0; i < Variables.size(); i++)
-//        cout << Variables[i] << " ";
-//    cout << endl;
-//    cout << "Number of variables:" << num << endl;
+    Convert();
+    
+
+
 }
 
-void QM::Bool_Fun(string b)
+void QM::Get_Fun(string b)
 {
     b.erase(remove_if(b.begin(), b.end(), ::isspace),b.end());
     string sub;
@@ -63,6 +63,32 @@ void QM::Validate_Fun()
                 
         }
             
+}
+
+void QM::Convert()
+{
+    string zero = "0";
+    string one = "1";
+    string target;
+    string result;
+    for (int i = 0; i < minterms.size(); i++)
+    {
+        result = "";
+        target = minterms[i];
+        for(int j = 0; j < target.length(); j++)
+        {
+            if (target[j] != '\'')
+            {
+                if (target[j+1] == '\'')
+                    result.append(zero);
+                else
+                    result.append(one);
+            }
+        }
+        Binterms.push_back(result);
+    }
+    
+    
 }
 
 
