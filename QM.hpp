@@ -15,19 +15,20 @@ using namespace std;
 class QM
 {
 private:
-    long int num = 0;
+    long int num;
     char Pos_Var[12] = {"'abcdefghij"};
     string Add[10] = {"a","b","c","d","e","f","g","h","i","j"};
     string Bar[10] = {"a'","b'","c'","d'","e'","f'","g'","h'","i'","j'"};
     string BoFun;
+    string Perfect = "";
     vector<string> Variables;
     vector<string> Validator;
     vector<string> minterms;
-    vector<string> Binterms;
+    vector<string> Bsterms;
     
     
 public:
-    QM(string);
+    QM(string, int);
     void Get_Fun(string);
     void Validate_Fun();
     void Convert();
