@@ -1,36 +1,17 @@
 
 #include "QM.hpp"
-QM::QM()
+QM::QM(string x)
 {
-    
-}
-void QM::Start()
-{
-    cout << "=====================================" << endl;
-    ifstream test1("/Users/s7s/Desktop/Uni Spring 2023/Digital Design/DD1 Project 1/Test_File.txt");
-    if (test1.fail())
-    {
-        cout << "Error loading file" << endl;
-        exit(EXIT_SUCCESS);
-    }
-    
-    stringstream buffer;
-    buffer << test1.rdbuf();
-    BoFun = buffer.str();
+    cout << "=============================================" << endl;
+    BoFun = x;
     Bool_Fun(BoFun);
-    
-    if (Validate_Bool() == false)
-    {
-        cout << "The function is not in a correct SoP form" << endl;
-        return;
-    }
-        
-    for (int i = 0; i < Variables.size(); i++)
-        cout << Variables[i] << " ";
-    cout << endl;
-    cout << "Number of variables:" << num << endl;
-
+    Validate_Fun();
+//    for (int i = 0; i < Variables.size(); i++)
+//        cout << Variables[i] << " ";
+//    cout << endl;
+//    cout << "Number of variables:" << num << endl;
 }
+
 void QM::Bool_Fun(string b)
 {
     b.erase(remove_if(b.begin(), b.end(), ::isspace),b.end());
@@ -42,9 +23,9 @@ void QM::Bool_Fun(string b)
     }
     
 }
-bool QM::Validate_Bool()
+void QM::Validate_Fun()
 {
-    int z = 1;
+    bool repeat;
     Validator = Variables;
     for (int i = 0; i < Validator.size(); i++)
     {
@@ -56,14 +37,25 @@ bool QM::Validate_Bool()
     for (int i = 0; i<Variables.size(); i++)
         for(int j = 1; j<= num; j++)
         {
-            if (Variables[i].find(Pos_Var[j]) != std::string::npos)
-                z = 1;
+            if (!(Variables[i].find(Pos_Var[j]) != std::string::npos))
+            {
+                
+            }
             else
-                return false;
+            {
+                repeat = false;
+                for (int z = 0; z < minterms.size(); z++)
+                {
+                    if (Variables[i] == minterms[z])
+                        repeat = true;
+                    
+                    if (repeat == false)
+                        minterms.push_back(Variables[i]);
+                }
+            }
+                
         }
             
-    
-    return true;
 }
 
 
