@@ -1,6 +1,9 @@
 
+
 #ifndef QM_hpp
 #define QM_hpp
+
+#define ull unsigned long long int
 
 #include <stdio.h>
 #include <iostream>
@@ -25,13 +28,24 @@ private:
     vector<string> Validator;
     vector<string> minterms;
     vector<string> Bsterms;
+    vector<string> Maxterms;
+    vector <int> Binterms;
+    vector <int> Bigterms;
+    vector<string> MaxString;
     
     
 public:
     QM(string, int);
     void Get_Fun(string);
-    void Validate_Fun();
+    void Gen_Fun();
+    bool Validate_Fun(int);
     void Convert();
+    int binaryToDecimal(int);
+    long long int decimalToBinary(int);
+    void TruthTable();
+    void RConvert();
+    void SoP_PoS();
+    
 };
 
-#endif 
+#endif
