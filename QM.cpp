@@ -419,7 +419,7 @@ void QM::ImplicationTable(){
         }
     }
     
-    for (int i = 0; i < PIs.size(); i++){
-        cout << PIs[i] << endl;
-    }
+//    for (int i = 0; i < PIs.size(); i++){
+//        cout << PIs[i] << endl;
+//    }
 }
