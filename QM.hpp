@@ -24,13 +24,13 @@ private:
     string Perfect = "";
     vector<string> Variables;
     vector<string> Validator;
-    vector<string> minterms; // string values of minterms
-    vector<string> Bsterms;
-    vector<string> Maxterms;
+    vector<string> minterms; // alphabetical values of minterms
+    vector<string> Bsterms; // Binary values of minterms
+    vector<string> Maxterms; // Binary values of maxtrems
     vector <int> Binterms; // decimal value of minterms
-    vector <int> Bigterms;
+    vector <int> Bigterms; // decimal values of maxtrems
     vector<string> MaxString;
-    vector<string> PIs;
+    vector<string> PIs; // Prime Implicants
     
     
 public:
@@ -39,15 +39,15 @@ public:
     void Gen_Fun();
     bool Validate_Fun(int);
     void Convert();
-    int binaryToDecimal(int);
-    long long int decimalToBinary(int);
-    void TruthTable();
+    int binaryToDecimal(int); // Converts from binart to decimal
+    long long int decimalToBinary(int); // converts from decimal to binary
+    void TruthTable(); // Generate Truth tables using minterms
     void RConvert();
     void SoP_PoS();
-    static int oneCount(string s);
-    void ImplicationTable();
-    bool CompareBits(string,string);
-    string ReplaceBits(string,string);
+    static int oneCount(string s); // count number of ones
+    void ImplicationTable(); // Generate Implication table and prime implicants
+    bool CompareBits(string,string); // Identify complements
+    string ReplaceBits(string,string); // When complementa are identified, they're replaced by _
     
     
 };
