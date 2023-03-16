@@ -1,5 +1,3 @@
-
-
 #ifndef QM_hpp
 #define QM_hpp
 
@@ -26,12 +24,13 @@ private:
     string Perfect = "";
     vector<string> Variables;
     vector<string> Validator;
-    vector<string> minterms;
+    vector<string> minterms; // string values of minterms
     vector<string> Bsterms;
     vector<string> Maxterms;
-    vector <int> Binterms;
+    vector <int> Binterms; // decimal value of minterms
     vector <int> Bigterms;
     vector<string> MaxString;
+    vector<string> PIs;
     
     
 public:
@@ -45,6 +44,11 @@ public:
     void TruthTable();
     void RConvert();
     void SoP_PoS();
+    static int oneCount(string s);
+    void ImplicationTable();
+    bool CompareBits(string,string);
+    string ReplaceBits(string,string);
+    
     
 };
 
