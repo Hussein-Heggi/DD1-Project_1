@@ -1,4 +1,3 @@
-
 #include "QM.hpp"
 QM::QM(string x, int n)
 {
@@ -318,5 +317,109 @@ void QM::RConvert()
                 
         }
         Maxterms.push_back(result);
+    }
+}
+
+int QM::oneCount(string s) {
+    int count = 0;
+    for (char c : s) {
+        if (c == '1') {
+            count++;
+        }
+    }
+    return count;
+}
+
+
+bool QM::CompareBits(string s1,string s2){
+   int n = 0;
+   for(int i=0; i < s1.length(); i++)
+   {
+       if(s1[i] != s2[i])
+        n++;
+   }
+   return (n==1);
+}
+
+
+string QM::ReplaceBits(string s1,string s2)
+{
+   string Vartemp = "";
+   for(int i=0; i < s1.length(); i++)
+   if(s1[i] != s2[i])
+       Vartemp = Vartemp+"_";
+   else
+       Vartemp = Vartemp + s1[i];
+
+   return Vartemp;
+}
+
+
+void QM::ImplicationTable(){
+    int size = Bsterms.size();
+    vector <string> col1;
+    vector <string> col2;
+    vector <string> col3;
+    sort(Bsterms.begin(), Bsterms.end(), [](string a, string b) {
+        return oneCount(a) < oneCount(b);
+    });
+        for (int i = 0; i < Bsterms.size(); i++){
+            col1.push_back(Bsterms[i]);
+        }
+    bool visited[size];
+    for (int i = 0; i < size; i++){
+        visited[i] = false;
+    }
+        for (int i = 0; i < size; i++){
+            for (int j = i; j < size; j++){
+                if (CompareBits(col1[i], col1[j])){
+                    visited[i] = true;
+                    visited[j] = true;
+                    col2.push_back(ReplaceBits(col1[i], col1[j]));
+                    sort(col2.begin(),  col2.end(), [](string a, string b) {
+                        return oneCount(a) < oneCount(b);
+                    });
+                }
+            }
+        }
+    bool visited1[col2.size()];
+    for (int i = 0; i < col2.size(); i++){
+        visited1[i] = false;
+    }
+    for (int i = 0; i < col2.size()-1; i++){
+        for (int j = i+1; j < col2.size(); j++){
+            if (CompareBits(col2[i], col2[j])){
+                visited1[i] = true;
+                visited1[j] = true;
+                col3.push_back(ReplaceBits(col2[i], col2[j]));
+                sort(col3.begin(),  col3.end(), [](string a, string b) {
+                    return oneCount(a) < oneCount(b);
+                });
+            }
+        }
+    }
+    for (int i= 0; i < size; i++){
+        if (visited[i] != true){
+            PIs.push_back(col1[i]);
+        }
+    }
+    
+    
+    for (int i = 0; i < col2.size(); i++){
+         if (visited1[i] != true)
+             PIs.push_back(col2[i]);
+        
+    }
+    for (int i = 0; i < col3.size(); i++){
+        for (int j = i+1; j < col3.size(); j++){
+            if (col3[i] != col3[j]){
+                break;
+            }
+            PIs.push_back(col3[i]);
+        }
+    }
+    
+    for (int i = 0; i < PIs.size(); i++){
+        cout << PIs[i] << endl;
     }
 }
