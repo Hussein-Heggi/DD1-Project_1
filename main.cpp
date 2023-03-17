@@ -10,9 +10,10 @@ void Examples(string &x, int &y)
     int E[10];
     E[0] = 4;
     E[1] = 4;
+    E[2] = 4;
     Ex[0] = "abc + a'b'c";
     Ex[1] = "abce + a'b'";
-    Ex[2] = "";
+    Ex[2] = "a'b'c'd+a'b'cd'+a'bc'd'+a'bc'd+a'bcd'+a'bcd+abc'd'+abcd'";
     Ex[3] = "";
     Ex[4] = "";
     Ex[5] = "";
