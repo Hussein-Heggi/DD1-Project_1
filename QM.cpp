@@ -10,6 +10,7 @@ QM::QM(string x, int n)
         cout << "Error, Invalid SoP form." << endl;
         return;
     }
+    
     Gen_Fun();
     Convert();
     cout << "Truth Table: " << endl;
@@ -17,6 +18,11 @@ QM::QM(string x, int n)
     TruthTable();
     RConvert();
     SoP_PoS();
+    ImplicationTable();
+    cout << "---------------------------------------------------------------" << endl;
+    Prime_Implicants();
+    cout << "---------------------------------------------------------------" << endl;
+    Essential_PI();
 }
 
 void QM::Get_Fun(string b)
@@ -43,15 +49,35 @@ bool QM::Validate_Fun(int n)
              for(int j = n + 1; j < 11; j++)
              {
                  if ((Validator[i].find(Pos_Var[j]) != std::string::npos))
-                     return false;;
+                     return false;
              }
     
-    
+    for (int i = 0; i<Validator.size(); i++)
+    {
+        string temp = Validator[i];
+        int indx = 0;
+        for(int j = 1; j <= n; j++)
+        {
+            if (temp[0] == Pos_Var[j])
+                indx = j;
+        }
+        
+        for (int z = 1; z < temp.length(); z++)
+        {
+            for (int w = indx; w > 0; w--)
+            {
+                if (temp[z] == Pos_Var[w])
+                    return false;
+            }
+        
+        }
+    }
+             
     return true;
 }
 void QM::Gen_Fun()
 {
-    bool repeat;
+    bool repeat = false;
     int y;
     for (int i = 1; i <= num ; i++)
     {
@@ -65,31 +91,30 @@ void QM::Gen_Fun()
         {
             Validator[i].erase(remove(Validator[i].begin(), Validator[i].end(), '\''), Validator[i].end());
         }
-        for(int j = 1; j<= num; j++)
+       
+        if(Validator[i] != Perfect)
         {
-            if(Validator[i].length() != Perfect.length())
+            string Incomplete = Variables[i];
+            string I1 = Incomplete, I2 = Incomplete;
+            y = 0;
+            for (int z = 0; z < num+y ; z++)
             {
-                string Incomplete = Variables[i];;
-                string I1 = Incomplete, I2 = Incomplete;
-                y = 0;
-                for (int z = 0; z < num+y ; z++)
+                if (Incomplete[z] != '\'')
                 {
-                    if (Incomplete[z+y] != '\'')
+                    if (Incomplete[z] != Perfect[z-y])
                     {
-                        if (Incomplete[z+y] != Perfect[z])
-                        {
-                            I1.insert(z+y, Add[z]);
-                            I2.insert(z+y, Bar[z]);
-                            Variables.push_back(I1);
-                            Variables.push_back(I2);
-                        }
+                        I1.insert(z, Add[z-y]);
+                        I2.insert(z, Bar[z-y]);
+                        Variables.push_back(I1);
+                        Variables.push_back(I2);
                     }
-                    else
-                        y++;
                 }
-                    
+                else
+                    y++;
             }
-            else
+                    
+         }
+         else
             {
                 repeat = false;
                 if (minterms.size() == 0)
@@ -110,7 +135,7 @@ void QM::Gen_Fun()
             }
                 
         }
-    }
+//    }
 }
 
 void QM::Convert()
@@ -266,7 +291,7 @@ void QM::SoP_PoS()
     cout << "Canonical PoS: ";
     for (int i = 0; i < Maxterms.size(); i++)
     {
-        cout << "(" << Maxterms[i] << ") ";
+        cout << "(" << Maxterms[i] << ")";
     }
     cout << endl;
     
@@ -320,18 +345,20 @@ void QM::RConvert()
     }
 }
 
-int QM::oneCount(string s) {
+int QM::oneCount(string s)
+{
     int count = 0;
-    for (char c : s) {
-        if (c == '1') {
+    for (char c : s)
+    {
+        if (c == '1')
             count++;
-        }
     }
     return count;
 }
 
 
-bool QM::CompareBits(string s1,string s2){
+bool QM::CompareBits(string s1,string s2)
+{
    int n = 0;
    for(int i=0; i < s1.length(); i++)
    {
@@ -347,7 +374,7 @@ string QM::ReplaceBits(string s1,string s2)
    string Vartemp = "";
    for(int i=0; i < s1.length(); i++)
    if(s1[i] != s2[i])
-       Vartemp = Vartemp+"_";
+       Vartemp = Vartemp+"-";
    else
        Vartemp = Vartemp + s1[i];
 
@@ -356,23 +383,28 @@ string QM::ReplaceBits(string s1,string s2)
 
 
 void QM::ImplicationTable(){
-    int size = Bsterms.size();
+    long int size = Bsterms.size();
     vector <string> col1;
     vector <string> col2;
     vector <string> col3;
-    sort(Bsterms.begin(), Bsterms.end(), [](string a, string b) {
+    sort(Bsterms.begin(), Bsterms.end(), [](string a, string b){
         return oneCount(a) < oneCount(b);
     });
-        for (int i = 0; i < Bsterms.size(); i++){
+        for (int i = 0; i < Bsterms.size(); i++)
+        {
             col1.push_back(Bsterms[i]);
         }
     bool visited[size];
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < size; i++)
+    {
         visited[i] = false;
     }
-        for (int i = 0; i < size; i++){
-            for (int j = i; j < size; j++){
-                if (CompareBits(col1[i], col1[j])){
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = i; j < size; j++)
+            {
+                if (CompareBits(col1[i], col1[j]))
+                {
                     visited[i] = true;
                     visited[j] = true;
                     col2.push_back(ReplaceBits(col1[i], col1[j]));
@@ -383,12 +415,16 @@ void QM::ImplicationTable(){
             }
         }
     bool visited1[col2.size()];
-    for (int i = 0; i < col2.size(); i++){
+    for (int i = 0; i < col2.size(); i++)
+    {
         visited1[i] = false;
     }
-    for (int i = 0; i < col2.size()-1; i++){
-        for (int j = i+1; j < col2.size(); j++){
-            if (CompareBits(col2[i], col2[j])){
+    for (int i = 0; i < col2.size()-1; i++)
+    {
+        for (int j = i+1; j < col2.size(); j++)
+        {
+            if (CompareBits(col2[i], col2[j]))
+            {
                 visited1[i] = true;
                 visited1[j] = true;
                 col3.push_back(ReplaceBits(col2[i], col2[j]));
@@ -398,28 +434,168 @@ void QM::ImplicationTable(){
             }
         }
     }
-    for (int i= 0; i < size; i++){
-        if (visited[i] != true){
+    for (int i= 0; i < size; i++)
+    {
+        if (visited[i] != true)
+        {
             PIs.push_back(col1[i]);
         }
     }
     
     
-    for (int i = 0; i < col2.size(); i++){
+    for (int i = 0; i < col2.size(); i++)
+    {
          if (visited1[i] != true)
              PIs.push_back(col2[i]);
         
     }
-    for (int i = 0; i < col3.size(); i++){
-        for (int j = i+1; j < col3.size(); j++){
-            if (col3[i] != col3[j]){
+    for (int i = 0; i < col3.size(); i++)
+    {
+        for (int j = i+1; j < col3.size(); j++)
+        {
+            if (col3[i] != col3[j])
+            {
                 break;
             }
             PIs.push_back(col3[i]);
         }
     }
+}
+
+
+void QM::Prime_Implicants()
+{
+    cout << "The Prime Implicants are:" << endl;
+    string target;
+    string result;
+    for (int i = 0; i < PIs.size(); i++)
+    {
+        cout << PIs[i] << " => ";
+        result = "";
+        target = PIs[i];
+        for(int j = 0; j < target.length(); j++)
+        {
+            if (target[j] != '-')
+            {
+                if (target[j] == '0')
+                    result.append(Bar[j]);
+                else
+                    result.append(Add[j]);
+            }
+        }
+        PIs[i] = result;
+        cout << PIs[i] << endl;
+    }
+}
+
+void QM::Essential_PI()
+{
+    cout << "The Essential Prime Implicants are:" << endl;
+    bool exact;
+    string temp1;
+    string temp2;
+    int p;
+    vector<vector<string>> chart;
+    vector<string> col;
+    for (int i = 0; i < PIs.size(); i++)
+    {
+        temp1 = PIs[i];
+        for(int j = 0; j < minterms.size(); j++)
+        {
+            p = 0;
+            exact = true;
+            temp2 = minterms[j];
+            for (int z = 0; z < temp1.length(); z++)
+            {
+//                cout << temp1[z] << "  " << temp2[p] << endl;
+                if (temp1[z] != temp2[p])
+                {
+                    if (temp1[z] != '\'')
+                    {
+                        if (temp2[p+1] == '\'')
+                        {
+                            p++;
+                        }
+                        p++;
+                        z--;
+                    }
+                    else
+                    {
+                        exact = false;
+                        break;
+                    }
+                }
+                else
+                    p++;
+            }
+                
+            if (exact == true)
+            {
+                col.push_back(temp2);
+            }
+            else
+                col.push_back(" -- ");
+        }
+        chart.push_back(col);
+        for (int i = 0; i<col.size(); i++)
+            cout << col[i] << " ";
+        cout << endl;
+        col.clear();
+    }
     
-//    for (int i = 0; i < PIs.size(); i++){
-//        cout << PIs[i] << endl;
+    vector<vector<int>> check(PIs.size(), vector<int>(minterms.size()));
+    fill(check.begin(), check.end(), vector<int>(minterms.size(), 0));
+    
+    bool unique;
+    for (int j = 0; j<minterms.size(); j++)
+    {
+        for (int i = 0; i<PIs.size(); i++)
+        {
+            unique = true;
+            if (chart[i][j] != " -- ")
+            {
+                for (int z = i+1; z<PIs.size(); z++)
+                {
+                        if (chart[z][j] == chart[i][j])
+                        {
+                            unique = false;
+                            
+                        }
+                }
+                if (unique == true)
+                {
+                    check[i][j] = 1;
+                }
+                    
+            }
+        }
+    }
+    
+    
+    for (int i = 0; i<PIs.size(); i++)
+    {
+        for (int j = 0; j<minterms.size(); j++)
+        {
+            for (int z = j+1; z<minterms.size(); z++)
+            {
+                    if (check[i][z] == check[i][j])
+                        check[i][z] = 0;
+            }
+        }
+    }
+    
+//    for (int i = 0; i<PIs.size(); i++)
+//    {
+//        for (int j = 0; j<minterms.size(); j++)
+//        {
+//            if (check[i][j] == 1)
+//            {
+//                cout << PIs[i] << " ";
+//            }
+//        }
+//        cout << endl;
 //    }
 }
+                        
+
+
