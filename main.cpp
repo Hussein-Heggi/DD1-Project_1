@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include "QM.hpp"
 using namespace std;
@@ -8,40 +9,33 @@ void Examples(string &x, int &y)
     string Ex[10];
     int E[10];
     E[0] = 4;
-    E[1] = 5;
-    E[2] = 4;
-    E[3] = 10;
-    E[4] = 1;
-    E[5] = 3;
-    E[6] = 4;
-    E[7] = 4;
-    E[8] = 7;
-    E[9] = 2;
+    E[1] = 4;
+    E[2] = 3;
     Ex[0] = "abc + a'b'c";
     Ex[1] = "abce + a'b'";
     Ex[2] = "a + b + c";
-    Ex[3] = "abcdefghij + abcdefghi'j";
-    Ex[4] = "a'";
-    Ex[5] = "ab + ac + bc + b'c + b + a";
-    Ex[6] = "b'd' + cd' + ad' + bd + bc + ab";
-    Ex[7] = "a'b'c'd' + a'bc'd' + a'bc'd + a'bcd' + ab'c'd' + ab'c'd + ab'cd' + abc'd + a'bcd + abcd";
-    Ex[8] = "abc + bcde + b'de + efg";
-    Ex[9] = "ab + a'b + ab' + a'b'";
+    Ex[3] = "";
+    Ex[4] = "";
+    Ex[5] = "";
+    Ex[6] = "";
+    Ex[7] = "";
+    Ex[8] = "";
+    Ex[9] = "";
     
     do
     {
         cout << "Please select an option: " << endl;
         cout << "---------------------------------------------------------------" << endl;
-        cout << "1- "  << Ex[0] <<  " , using " << E[0] << " literal(s)" << endl;
-        cout << "2- "  << Ex[1] <<  " , using " << E[1] << " literal(s)" << endl;
-        cout << "3- "  << Ex[2] <<  " , using " << E[2] << " literal(s)" << endl;
-        cout << "4- "  << Ex[3] <<  " , using " << E[3] << " literal(s)" << endl;
-        cout << "5- "  << Ex[4] <<  " , using " << E[4] << " literal(s)" << endl;
-        cout << "6- "  << Ex[5] <<  " , using " << E[5] << " literal(s)" << endl;
-        cout << "7- "  << Ex[6] <<  " , using " << E[6] << " literal(s)" << endl;
-        cout << "8- "  << Ex[7] <<  " , using " << E[7] << " literal(s)" << endl;
-        cout << "9- "  << Ex[8] <<  " , using " << E[8] << " literal(s)" << endl;
-        cout << "10- " << Ex[9] <<  " , using " << E[9] << " literal(s)" << endl;
+        cout << "1-"  << Ex[0] << endl;
+        cout << "2-"  << Ex[1] << endl;
+        cout << "3-"  << Ex[2] << endl;
+        cout << "4-"  << Ex[3] << endl;
+        cout << "5-"  << Ex[4] << endl;
+        cout << "6-"  << Ex[5] << endl;
+        cout << "7-"  << Ex[6] << endl;
+        cout << "8-"  << Ex[7] << endl;
+        cout << "9-"  << Ex[8] << endl;
+        cout << "10-" << Ex[9] << endl;
         cout << "---------------------------------------------------------------" << endl;
         cin >> r;
         
@@ -61,7 +55,7 @@ void Operation()
     int o = 0;
     cout << "Please select an option: " << endl;
     cout << "---------------------------------------------------------------" << endl;
-    cout << "1- Choose an existing Example" << endl;
+    cout << "1- Choose an Example" << endl;
     cout << "2- Insert a new Example" << endl;
     cout << "3- Exit" << endl;
     cin >> o;
@@ -104,7 +98,7 @@ void Operation()
                 case 3:
                 {
                     cout << "---------------------------------------------------------------" << endl;
-                    cout << "Thanks for using our Program" << endl;
+                    cout << "Thanks for using our Program =)" << endl;
                     cout << "Created by Hussein Heggi and Youssef Elmahdy" << endl;
                     exit(EXIT_SUCCESS);
                     break;
@@ -141,7 +135,7 @@ int main()
                     
                 case 2:
                     cout << "---------------------------------------------------------------" << endl;
-                    cout << "Thanks for using our Program" << endl;
+                    cout << "Thanks for using our Program =)" << endl;
                     cout << "Created by Hussein Heggi and Youssef Elmahdy" << endl;
                     exit(EXIT_SUCCESS);
                     break;
