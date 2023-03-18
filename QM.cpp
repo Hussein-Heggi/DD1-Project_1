@@ -83,7 +83,7 @@ void QM::Gen_Fun()
     {
         Perfect.push_back(Pos_Var[i]);
     }
-        
+    
     for (int i = 0; i<Variables.size(); i++)
     {
         Validator = Variables;
@@ -107,6 +107,7 @@ void QM::Gen_Fun()
                         I2.insert(z, Bar[z-y]);
                         Variables.push_back(I1);
                         Variables.push_back(I2);
+                        break;
                     }
                 }
                 else
@@ -382,7 +383,8 @@ string QM::ReplaceBits(string s1,string s2)
 }
 
 
-void QM::ImplicationTable(){
+void QM::ImplicationTable()
+{
     long int size = Bsterms.size();
     vector <string> col1;
     vector <string> col2;
@@ -466,24 +468,37 @@ void QM::ImplicationTable(){
 void QM::Prime_Implicants()
 {
     cout << "The Prime Implicants are:" << endl;
+    PreEssential = PIs;
     string target;
     string result;
+    string r;
     for (int i = 0; i < PIs.size(); i++)
     {
         cout << PIs[i] << " => ";
         result = "";
+        r = "";
         target = PIs[i];
         for(int j = 0; j < target.length(); j++)
         {
             if (target[j] != '-')
             {
                 if (target[j] == '0')
+                {
                     result.append(Bar[j]);
+                    r.append(Bar[j]);
+                }
                 else
+                {
                     result.append(Add[j]);
+                    r.append(Add[j]);
+                }
+                    
             }
+            else if (target[j] == '-')
+                r.append("-");
         }
         PIs[i] = result;
+        PreEssential[i] = r;
         cout << PIs[i] << endl;
     }
 }
@@ -497,9 +512,9 @@ void QM::Essential_PI()
     int p;
     vector<vector<string>> chart;
     vector<string> col;
-    for (int i = 0; i < PIs.size(); i++)
+    for (int i = 0; i < PreEssential.size(); i++)
     {
-        temp1 = PIs[i];
+        temp1 = PreEssential[i];
         for(int j = 0; j < minterms.size(); j++)
         {
             p = 0;
@@ -508,25 +523,44 @@ void QM::Essential_PI()
             for (int z = 0; z < temp1.length(); z++)
             {
 //                cout << temp1[z] << "  " << temp2[p] << endl;
-                if (temp1[z] != temp2[p])
+                if (temp1[z] != '-')
                 {
-                    if (temp1[z] != '\'')
+                    
+                    if (temp1[z] != temp2[p])
                     {
-                        if (temp2[p+1] == '\'')
-                        {
-                            p++;
-                        }
-                        p++;
-                        z--;
-                    }
-                    else
-                    {
+//                        cout << 1 << endl;
                         exact = false;
                         break;
                     }
+                    else if (z == temp1.length()-1)
+                    {
+                        if (temp2[p+1] == '\'')
+                        {
+//                            cout << 2 << endl;
+                            exact = false;
+                            break;
+                        }
+                    }
+                    else
+                        p++;
                 }
                 else
-                    p++;
+                {
+                    if (temp2[p] == '\'')
+                    {
+//                        cout << 3 << endl;
+                        exact = false;
+                        break;
+                    }
+                    else
+                    {
+                        if (temp2[p+1] == '\'')
+                            p++;
+                        p++;
+                    }
+                    
+                }
+                
             }
                 
             if (exact == true)
@@ -536,65 +570,58 @@ void QM::Essential_PI()
             else
                 col.push_back(" -- ");
         }
+        
         chart.push_back(col);
-        for (int i = 0; i<col.size(); i++)
-            cout << col[i] << " ";
-        cout << endl;
+//        for (int i = 0; i<col.size(); i++)
+//            cout << col[i] << " ";
+//        cout << endl;
         col.clear();
     }
     
     vector<vector<int>> check(PIs.size(), vector<int>(minterms.size()));
     fill(check.begin(), check.end(), vector<int>(minterms.size(), 0));
     
-    bool unique;
     for (int j = 0; j<minterms.size(); j++)
     {
         for (int i = 0; i<PIs.size(); i++)
         {
-            unique = true;
             if (chart[i][j] != " -- ")
             {
-                for (int z = i+1; z<PIs.size(); z++)
-                {
-                        if (chart[z][j] == chart[i][j])
-                        {
-                            unique = false;
-                            
-                        }
-                }
-                if (unique == true)
-                {
-                    check[i][j] = 1;
-                }
-                    
+                check[i][j] = 1;
+                
             }
         }
     }
-    
-    
-    for (int i = 0; i<PIs.size(); i++)
+    int c, indx;
+    vector<bool> unique (PIs.size(), false);
+    for (int j = 0; j<minterms.size(); j++)
     {
-        for (int j = 0; j<minterms.size(); j++)
+        indx = 0;
+        c = 0;
+        for (int i = 0; i<PIs.size(); i++)
         {
-            for (int z = j+1; z<minterms.size(); z++)
+            if (check[i][j] == 1)
             {
-                    if (check[i][z] == check[i][j])
-                        check[i][z] = 0;
+                c++;
+                indx = i;
             }
         }
+        
+        if (c == 1)
+            unique[indx] = true;
+        
     }
     
-//    for (int i = 0; i<PIs.size(); i++)
-//    {
-//        for (int j = 0; j<minterms.size(); j++)
-//        {
-//            if (check[i][j] == 1)
-//            {
-//                cout << PIs[i] << " ";
-//            }
-//        }
-//        cout << endl;
-//    }
+    for (int i=0; i<PIs.size(); i++)
+    {
+        if (unique[i] == true)
+            EPIs.push_back(PIs[i]);
+    }
+    
+    for (int i = 0; i<EPIs.size(); i++)
+    {
+        cout << EPIs[i] << endl;
+    }
 }
                         
 
