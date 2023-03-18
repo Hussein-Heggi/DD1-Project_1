@@ -291,6 +291,10 @@ void QM::SoP_PoS()
     }
     cout << endl;
     cout << "Canonical PoS: ";
+    if (Maxterms.size() == 0)
+    {
+        Maxterms.push_back("1");
+    }
     for (int i = 0; i < Maxterms.size(); i++)
     {
         cout << "(" << Maxterms[i] << ")";
@@ -327,9 +331,9 @@ void QM::RConvert()
             if (j == target.length()-1)
             {
                 if (target[j] == '0')
-                    result.append(Bar[j]);
-                else
                     result.append(Add[j]);
+                else
+                    result.append(Bar[j]);
             }
             
             else
@@ -638,10 +642,13 @@ void QM::Essential_PI()
 void QM::restorePIs(string s){
         int numVars = s.length();
         vector<int> minterms;
-        for (int i = 0; i < (1 << numVars); i++) {
+        for (int i = 0; i < (1 << numVars); i++) 
+        {
             bool match = true;
-            for (int j = 0; j < numVars; j++) {
-                if (s[j] != '_' && s[j] != '0' + ((i >> (numVars - j - 1)) & 1)) {
+            for (int j = 0; j < numVars; j++) 
+            {
+                if (s[j] != '_' && s[j] != '0' + ((i >> (numVars - j - 1)) & 1)) 
+                {
                     match = false;
                     break;
                 }
