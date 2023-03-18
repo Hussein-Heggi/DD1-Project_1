@@ -31,6 +31,8 @@ private:
     vector <int> Bigterms; // decimal values of maxtrems
     vector<string> MaxString;
     vector<string> PIs; // Prime Implicants
+    vector<string> PreEssential; //copy of PIs with dontcares
+    vector<string> EPIs; // Essential Prime Implicants
     
     
 public:
