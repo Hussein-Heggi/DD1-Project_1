@@ -1,10 +1,3 @@
-//
-//  QM.hpp
-//  DD Project
-//
-//  Created by Youssef Elmahdy on 14/03/2023.
-//
-
 #ifndef QM_hpp
 #define QM_hpp
 
@@ -40,6 +33,8 @@ private:
     vector<string> PIs; // Prime Implicants
     vector<string> PreEssential; //copy of PIs with dontcares
     vector<string> EPIs; // Essential Prime Implicants
+    vector<string> Copy;
+    
     
     
 public:
