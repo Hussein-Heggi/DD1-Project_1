@@ -1,3 +1,9 @@
+//
+//  QM.cpp
+//  DD Project
+//
+//  Created by Youssef Elmahdy on 14/03/2023.
+//
 
 #include "QM.hpp"
 QM::QM(string x, int n)
@@ -291,10 +297,6 @@ void QM::SoP_PoS()
     }
     cout << endl;
     cout << "Canonical PoS: ";
-    if (Maxterms.size() == 0)
-    {
-        Maxterms.push_back("1");
-    }
     for (int i = 0; i < Maxterms.size(); i++)
     {
         cout << "(" << Maxterms[i] << ")";
@@ -331,9 +333,9 @@ void QM::RConvert()
             if (j == target.length()-1)
             {
                 if (target[j] == '0')
-                    result.append(Add[j]);
-                else
                     result.append(Bar[j]);
+                else
+                    result.append(Add[j]);
             }
             
             else
@@ -467,9 +469,13 @@ void QM::ImplicationTable(){
                 break;
             }
         }
-        if (dup == false)
+        if (dup == false){
             PIs.push_back(col3[i]);
-    }
+        }
+        
+        
+        }
+    
     
     
 //    for (int i = 0; )
@@ -478,6 +484,11 @@ void QM::ImplicationTable(){
 //    for (int i = 0; i < PIs.size(); i++){
 //        cout << PIs[i] << endl;
 //    }
+    
+    for (int i = 0; i < PIs.size(); i++){
+        cout << "The minterms covered by the prime implicant " << PIs[i] << " are: ";
+        restorePIs(PIs[i]);
+    }
 }
 
 void QM::Prime_Implicants()
@@ -642,13 +653,10 @@ void QM::Essential_PI()
 void QM::restorePIs(string s){
         int numVars = s.length();
         vector<int> minterms;
-        for (int i = 0; i < (1 << numVars); i++) 
-        {
+        for (int i = 0; i < (1 << numVars); i++) {
             bool match = true;
-            for (int j = 0; j < numVars; j++) 
-            {
-                if (s[j] != '_' && s[j] != '0' + ((i >> (numVars - j - 1)) & 1)) 
-                {
+            for (int j = 0; j < numVars; j++) {
+                if (s[j] != '-' && s[j] != '0' + ((i >> (numVars - j - 1)) & 1)) {
                     match = false;
                     break;
                 }
@@ -658,7 +666,8 @@ void QM::restorePIs(string s){
             }
         }
     for (int i = 0; i < minterms.size(); i++){
-        cout << decimalToBinary(minterms[i]) << endl;
+        cout << minterms[i] << " ";
     }
+    cout << endl;
 }
 
