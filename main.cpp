@@ -1,5 +1,6 @@
-#include <iostream>
+
 #include "QM.hpp"
+#include <iostream>
 using namespace std;
 
 void Examples(string &x, int &y)
@@ -9,7 +10,7 @@ void Examples(string &x, int &y)
     int E[10];
     E[0] = 4;
     E[1] = 5;
-    E[2] = 4;
+    E[2] = 3;
     E[3] = 10;
     E[4] = 1;
     E[5] = 3;
