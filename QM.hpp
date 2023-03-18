@@ -1,3 +1,10 @@
+//
+//  QM.hpp
+//  DD Project
+//
+//  Created by Youssef Elmahdy on 14/03/2023.
+//
+
 #ifndef QM_hpp
 #define QM_hpp
 
@@ -55,3 +62,5 @@ public:
     void restorePIs(string s1);
     
 };
+
+#endif
