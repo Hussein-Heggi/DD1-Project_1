@@ -7,7 +7,7 @@
 
 
 Quine–McCluskey Algorithm
-Youssef Elmahd & Hussein Heggi
+Youssef Elmahdy & Hussein Heggi
 Instructor: Mohamed Shalaan
 The American Univesity in Cairo
 
