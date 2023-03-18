@@ -531,7 +531,6 @@ void QM::Prime_Implicants()
 
 void QM::Essential_PI()
 {
-    cout << "The Essential Prime Implicants are:" << endl;
     bool exact;
     string temp1;
     string temp2;
@@ -628,19 +627,85 @@ void QM::Essential_PI()
         
         if (c == 1)
             unique[indx] = true;
-        
+            
     }
-    
+        
     for (int i=0; i<PIs.size(); i++)
     {
         if (unique[i] == true)
-            EPIs.push_back(Copy[i]);
+                EPIs.push_back(Copy[i]);
     }
-    
-    for (int i = 0; i<EPIs.size(); i++)
+
+    vector<bool> cov(minterms.size(), false);
+
+    for (int i = 0; i<PIs.size(); i++)
     {
-        cout << EPIs[i] << endl;
+        if (unique[i] == true)
+        {
+            for (int j = 0; j<minterms.size(); j++)
+                {
+                    if (check[i][j] == 1)
+                    {
+                        auto it = find(covered.begin(),covered.end(),minterms[j]);
+                        if (it == covered.end())
+                        {
+                            covered.push_back(minterms[j]);
+                            cov[j] = true;
+                        }
+                     }
+                 }
+             }
+         }
+
+        if (EPIs.size() == 0)
+        {
+            cout << "There are no essential prime implicants" << endl;
+            cout << endl;
+        }
+        else
+        {
+            cout << "The Essential Prime Implicants are:" << endl;
+            for (int i = 0; i<EPIs.size(); i++)
+            {
+                cout << EPIs[i] << endl;
+            }
+            cout << endl;
+        
+            cout << "Covered Minterms by EPI(s): " << endl;
+            for (int i = 0; i<covered.size(); i++)
+            {
+                if (i == covered.size()-1)
+                    cout << covered[i] << endl;
+                else
+                    cout << covered[i] << " - ";
+            }
+            cout << endl;
+
     }
+
+         for (int i = 0; i<minterms.size(); i++)
+         {
+             if (cov[i] == false)
+             {
+                 uncovered.push_back(minterms[i]);
+             }
+         }
+
+         if (uncovered.size() == 0)
+         {
+             cout << "All minterms are covered" << endl;
+         }
+         else
+         {
+             cout << "Uncovered Minterms by EPI(s): " << endl;
+             for (int i = 0; i<uncovered.size(); i++)
+             {
+                 if (i == uncovered.size()-1)
+                     cout << uncovered[i] << endl;
+                 else
+                     cout << uncovered[i] << " - ";
+             }
+         }
 }
 
 void QM::restorePIs(string s)
@@ -652,7 +717,8 @@ void QM::restorePIs(string s)
             bool match = true;
             for (int j = 0; j < numVars; j++)
             {
-                if (s[j] != '-' && s[j] != '0' + ((i >> (numVars - j - 1)) & 1)) {
+                if (s[j] != '-' && s[j] != '0' + ((i >> (numVars - j - 1)) & 1))
+                {
                     match = false;
                     break;
                 }
