@@ -1,10 +1,3 @@
-//
-//  QM.cpp
-//  DD Project
-//
-//  Created by Youssef Elmahdy on 14/03/2023.
-//
-
 #include "QM.hpp"
 QM::QM(string x, int n)
 {
@@ -14,7 +7,7 @@ QM::QM(string x, int n)
     Get_Fun(BoFun);
     if (!Validate_Fun(n))
     {
-        cout << "Error, Invalid SoP form." << endl;
+        cout << "Error, Invalid SoP form. Please Write in Alphabetical order" << endl;
         return;
     }
     
@@ -143,7 +136,6 @@ void QM::Gen_Fun()
             }
                 
         }
-//    }
 }
 
 void QM::Convert()
@@ -168,8 +160,6 @@ void QM::Convert()
         }
         Bsterms.push_back(result);
     }
-    
-    
 }
 
 int QM::binaryToDecimal(int n)
@@ -257,13 +247,15 @@ void QM::TruthTable()
                 values[i][j] = 1;
                 shiftvalue[j]++;
             }
-            if (shiftvalue[j] == 2*shiftrule[j]){
+            if (shiftvalue[j] == 2*shiftrule[j])
+            {
                 shiftvalue[j] = 0;
             }
             values[i][num] = 0;
         }
     }
-    for (int i = 0; i < Binterms.size(); i++){
+    for (int i = 0; i < Binterms.size(); i++)
+    {
         
         values[Binterms[i]][num] = 1;
     }
@@ -297,12 +289,18 @@ void QM::SoP_PoS()
     }
     cout << endl;
     cout << "Canonical PoS: ";
-    for (int i = 0; i < Maxterms.size(); i++)
+    if (Maxterms.size() == 0)
     {
-        cout << "(" << Maxterms[i] << ")";
+        cout << "1" << endl;
     }
-    cout << endl;
-    
+    else
+    {
+        for (int i = 0; i < Maxterms.size(); i++)
+        {
+            cout << "(" << Maxterms[i] << ")";
+        }
+        cout << endl;
+    }
 }
 
 long long int QM::decimalToBinary(int N)
@@ -333,9 +331,9 @@ void QM::RConvert()
             if (j == target.length()-1)
             {
                 if (target[j] == '0')
-                    result.append(Bar[j]);
-                else
                     result.append(Add[j]);
+                else
+                    result.append(Bar[j]);
             }
             
             else
@@ -388,54 +386,62 @@ string QM::ReplaceBits(string s1,string s2)
 
    return Vartemp;
 }
-void QM::ImplicationTable(){
+void QM::ImplicationTable()
+{
     int size = Bsterms.size();
     vector <string> col1;
     vector <string> col2;
     vector <string> col3;
-    sort(Bsterms.begin(), Bsterms.end(), [](string a, string b) {
-        return oneCount(a) < oneCount(b);
-    });
-        for (int i = 0; i < Bsterms.size(); i++){
+    sort(Bsterms.begin(), Bsterms.end(), [](string a, string b) {return oneCount(a) < oneCount(b);});
+        for (int i = 0; i < Bsterms.size(); i++)
+        {
             col1.push_back(Bsterms[i]);
         }
     bool visited[size];
-    for (int i = 0; i < size; i++){
+    for (int i = 0; i < size; i++)
+    {
         visited[i] = false;
     }
-        for (int i = 0; i < size; i++){
-            for (int j = i; j < size; j++){
-                if (CompareBits(col1[i], col1[j])){
+        for (int i = 0; i < size; i++)
+        {
+            for (int j = i; j < size; j++)
+            {
+                if (CompareBits(col1[i], col1[j]))
+                {
                     visited[i] = true;
                     visited[j] = true;
                     col2.push_back(ReplaceBits(col1[i], col1[j]));
-                    sort(col2.begin(),  col2.end(), [](string a, string b) {
-                        return oneCount(a) < oneCount(b);
-                    });
+                    sort(col2.begin(),  col2.end(), [](string a, string b) {return oneCount(a) < oneCount(b);});
                 }
             }
         }
     bool visited1[col2.size()];
-    for (int i = 0; i < col2.size(); i++){
+    for (int i = 0; i < col2.size(); i++)
+    {
         visited1[i] = false;
     }
-    for (int i = 0; i < col2.size()-1; i++){
-        for (int j = i+1; j < col2.size(); j++){
-            if (CompareBits(col2[i], col2[j])){
+    for (int i = 0; i < col2.size()-1; i++)
+    {
+        for (int j = i+1; j < col2.size(); j++)
+        {
+            if (CompareBits(col2[i], col2[j]))
+            {
                 visited1[i] = true;
                 visited1[j] = true;
                 col3.push_back(ReplaceBits(col2[i], col2[j]));
-                sort(col3.begin(),  col3.end(), [](string a, string b) {
-                    return oneCount(a) < oneCount(b);
-                });
+                sort(col3.begin(),  col3.end(), [](string a, string b) {return oneCount(a) < oneCount(b);});
             }
         }
     }
-    for (int i= 0; i < size; i++){
+    for (int i= 0; i < size; i++)
+    {
         bool dup = false;
-        if (visited[i] != true){
-            for (int j = 0; j < PIs.size(); j++){
-                if (PIs[j] == col1[i]){
+        if (visited[i] != true)
+        {
+            for (int j = 0; j < PIs.size(); j++)
+            {
+                if (PIs[j] == col1[i])
+                {
                     dup = true;
                     break;
                 }
@@ -446,11 +452,15 @@ void QM::ImplicationTable(){
     }
     
     
-    for (int i = 0; i < col2.size(); i++){
+    for (int i = 0; i < col2.size(); i++)
+    {
         bool dup = false;
-        if (visited1[i] != true){
-            for (int j = 0; j < PIs.size(); j++){
-                if (PIs[j] == col2[i]){
+        if (visited1[i] != true)
+        {
+            for (int j = 0; j < PIs.size(); j++)
+            {
+                if (PIs[j] == col2[i])
+                {
                     dup = true;
                     break;
                 }
@@ -461,33 +471,21 @@ void QM::ImplicationTable(){
         }
     
     
-    for (int i = 0; i < col3.size(); i++){
+    for (int i = 0; i < col3.size(); i++)
+    {
         bool dup = false;
-        for (int j = 0; j < PIs.size(); j++){
-            if (PIs[j] == col3[i]){
+        for (int j = 0; j < PIs.size(); j++)
+        {
+            if (PIs[j] == col3[i])
+            {
                 dup = true;
                 break;
             }
         }
-        if (dup == false){
+        if (dup == false)
+        {
             PIs.push_back(col3[i]);
         }
-        
-        
-        }
-    
-    
-    
-//    for (int i = 0; )
-    
-//    cout << endl << endl;
-//    for (int i = 0; i < PIs.size(); i++){
-//        cout << PIs[i] << endl;
-//    }
-    
-    for (int i = 0; i < PIs.size(); i++){
-        cout << "The minterms covered by the prime implicant " << PIs[i] << " are: ";
-        restorePIs(PIs[i]);
     }
 }
 
@@ -495,14 +493,15 @@ void QM::Prime_Implicants()
 {
     cout << "The Prime Implicants are:" << endl;
     PreEssential = PIs;
+    Copy = PIs;
     string target;
     string result;
     string r;
     for (int i = 0; i < PIs.size(); i++)
     {
-        cout << PIs[i] << " => ";
-        result = "";
+        cout << PIs[i] << " => Covered Minterms: ";
         r = "";
+        result = "";
         target = PIs[i];
         for(int j = 0; j < target.length(); j++)
         {
@@ -523,9 +522,10 @@ void QM::Prime_Implicants()
             else if (target[j] == '-')
                 r.append("-");
         }
-        PIs[i] = result;
+        
         PreEssential[i] = r;
-        cout << PIs[i] << endl;
+        Copy[i] = result;
+        restorePIs(PIs[i]);
     }
 }
 
@@ -548,13 +548,11 @@ void QM::Essential_PI()
             temp2 = minterms[j];
             for (int z = 0; z < temp1.length(); z++)
             {
-//                cout << temp1[z] << "  " << temp2[p] << endl;
                 if (temp1[z] != '-')
                 {
                     
                     if (temp1[z] != temp2[p])
                     {
-//                        cout << 1 << endl;
                         exact = false;
                         break;
                     }
@@ -562,7 +560,6 @@ void QM::Essential_PI()
                     {
                         if (temp2[p+1] == '\'')
                         {
-//                            cout << 2 << endl;
                             exact = false;
                             break;
                         }
@@ -574,7 +571,6 @@ void QM::Essential_PI()
                 {
                     if (temp2[p] == '\'')
                     {
-//                        cout << 3 << endl;
                         exact = false;
                         break;
                     }
@@ -598,9 +594,6 @@ void QM::Essential_PI()
         }
         
         chart.push_back(col);
-//        for (int i = 0; i<col.size(); i++)
-//            cout << col[i] << " ";
-//        cout << endl;
         col.clear();
     }
     
@@ -641,7 +634,7 @@ void QM::Essential_PI()
     for (int i=0; i<PIs.size(); i++)
     {
         if (unique[i] == true)
-            EPIs.push_back(PIs[i]);
+            EPIs.push_back(Copy[i]);
     }
     
     for (int i = 0; i<EPIs.size(); i++)
@@ -650,24 +643,28 @@ void QM::Essential_PI()
     }
 }
 
-void QM::restorePIs(string s){
+void QM::restorePIs(string s)
+{
         int numVars = s.length();
         vector<int> minterms;
-        for (int i = 0; i < (1 << numVars); i++) {
+        for (int i = 0; i < (1 << numVars); i++)
+        {
             bool match = true;
-            for (int j = 0; j < numVars; j++) {
+            for (int j = 0; j < numVars; j++)
+            {
                 if (s[j] != '-' && s[j] != '0' + ((i >> (numVars - j - 1)) & 1)) {
                     match = false;
                     break;
                 }
             }
-            if (match) {
+            if (match)
+            {
                 minterms.push_back(i);
             }
         }
-    for (int i = 0; i < minterms.size(); i++){
+    for (int i = 0; i < minterms.size(); i++)
+    {
         cout << minterms[i] << " ";
     }
     cout << endl;
 }
-
