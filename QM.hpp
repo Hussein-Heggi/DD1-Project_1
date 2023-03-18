@@ -33,8 +33,7 @@ private:
     vector<string> PIs; // Prime Implicants
     vector<string> PreEssential; //copy of PIs with dontcares
     vector<string> EPIs; // Essential Prime Implicants
-    vector<string> covered; // Covered minterms by EPIs
-    vector<string> uncovered; // complement of covered
+    
     
 public:
     QM(string, int); // Constructor
@@ -53,6 +52,6 @@ public:
     bool CompareBits(string,string); // Identify complements
     string ReplaceBits(string,string); // When complementa are identified, they're replaced by _
     void Essential_PI(); // Generate and Display EPIs
+    void restorePIs(string s1);
+    
 };
-
-#endif
