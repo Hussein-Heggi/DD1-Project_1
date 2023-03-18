@@ -34,6 +34,8 @@ private:
     vector<string> PreEssential; //copy of PIs with dontcares
     vector<string> EPIs; // Essential Prime Implicants
     vector<string> Copy;
+    vector<string> covered; // Covered minterms by EPIs
+    vector<string> uncovered; // complement of covered
     
     
     
